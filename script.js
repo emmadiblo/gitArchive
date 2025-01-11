@@ -1,16 +1,3 @@
-
-
-
-function updateProgress(percent) {
-    const progressBar = document.getElementById('progress');
-    const progressText = document.getElementById('progress-text');
-    const progressContainer = document.getElementById('progress-container');
-    
-    progressContainer.style.display = 'block';
-    progressBar.style.width = `${percent}%`;
-    progressText.textContent = `${Math.round(percent)}%`;
-}
-
 document.getElementById('search-btn').onclick = async () => {
     const query = document.getElementById('search-input').value;
     if (!query.trim()) {
@@ -25,11 +12,6 @@ document.getElementById('search-btn').onclick = async () => {
         const response = await fetch(`https://api.github.com/search/repositories?q=${query}+in:readme`, {
             headers: { 'Accept': 'application/vnd.github.v3+json' }
         });
-
-
-       // Afficher les informations du quota
-      console.log(response.headers.get('X-RateLimit-Remaining')); // Nombre de requêtes restantes
-      console.log(response.headers.get('X-RateLimit-Reset')); // Heure de réinitialisation du quota  
 
         if (!response.ok) {
             throw new Error(`Erreur de l'API GitHub: ${response.status}`);
@@ -65,62 +47,12 @@ document.getElementById('search-btn').onclick = async () => {
                 downloadButton.className = 'download-btn';
                 downloadButton.innerHTML = '<i class="fas fa-download"></i> Télécharger';
 
-                const zipUrl = `https://api.github.com/repos/${item.full_name}/zipball/main`;
+                // URL de téléchargement direct
+                const downloadUrl = `https://github.com/${item.full_name}/archive/refs/heads/main.zip`;
 
-                downloadButton.onclick = async () => {
-                    try {
-                        const zipResponse = await fetch(zipUrl, {
-                            method: 'GET',
-                            headers: { 'Accept': 'application/vnd.github+json' }
-                        });
-
-                        if (!zipResponse.ok) {
-                            throw new Error(`Erreur lors du téléchargement du fichier ZIP (${zipResponse.status})`);
-                        }
-
-                        const blob = await zipResponse.blob();
-                        const arrayBuffer = await blob.arrayBuffer();
-                        const contentLength = arrayBuffer.byteLength;
-
-                        updateProgress(50);
-
-                        const zip = await JSZip.loadAsync(arrayBuffer);
-
-                        if (!zip.files || Object.keys(zip.files).length === 0) {
-                            throw new Error('Le fichier téléchargé n\'est pas un fichier ZIP valide.');
-                        }
-
-                        const dirPicker = document.getElementById('file-input');
-                        dirPicker.onchange = async () => {
-                            const totalFiles = Object.keys(zip.files).length;
-                            let processedFiles = 0;
-
-                            for (const [fileName, fileData] of Object.entries(zip.files)) {
-                                if (!fileData.dir) {
-                                    const content = await fileData.async('blob');
-                                    const a = document.createElement('a');
-                                    a.href = URL.createObjectURL(content);
-                                    a.download = fileName;
-                                    a.click();
-                                    URL.revokeObjectURL(a.href);
-
-                                    processedFiles++;
-                                    updateProgress((processedFiles / totalFiles) * 100);
-                                }
-                            }
-
-                            setTimeout(() => {
-                                document.getElementById('progress-container').style.display = 'none';
-                                updateProgress(0);
-                                alert('Téléchargement complet !');
-                            }, 1000);
-                        };
-
-                        dirPicker.click();
-                    } catch (error) {
-                        console.error('Erreur lors du téléchargement:', error);
-                        alert(`Erreur lors du téléchargement: ${error.message}`);
-                    }
+                downloadButton.onclick = () => {
+                    // Ouvre l'URL de téléchargement dans un nouvel onglet
+                    window.open(downloadUrl, '_blank');
                 };
 
                 resultItem.appendChild(repoInfo);
