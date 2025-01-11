@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recherche et Extraction de ZIP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">gitArchive<span class="highlight">!</span></h1>
+        <p class="subtitle">Recherchez et téléchargez tout répo github en zip rapidement</p>
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder="Entrez un mot-clé">
+            <button id="search-btn">Rechercher</button>
+        </div>
+
+
+        <div class="progress-container" id="progress-container">
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div id="progress-text">0%</div>
+        </div>
+        <div id="results"></div>
+        <input type="file" id="file-input" style="display: none;" webkitdirectory mozdirectory />
+    </div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
