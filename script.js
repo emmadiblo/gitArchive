@@ -1,5 +1,6 @@
 
 
+
 function updateProgress(percent) {
     const progressBar = document.getElementById('progress');
     const progressText = document.getElementById('progress-text');
@@ -21,18 +22,12 @@ document.getElementById('search-btn').onclick = async () => {
     resultsDiv.innerHTML = '<p class="searching">Recherche en cours...</p>';
 
     try {
-         
-        
-    const token = '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'; 
+        const response = await fetch(`https://api.github.com/search/repositories?q=${query}+in:readme`, {
+            headers: { 'Accept': 'application/vnd.github.v3+json' }
+        });
 
-    const response = await fetch(`https://api.github.com/search/repositories?q=${query}+in:readme`, {
-        headers: { 
-            'Accept': 'application/vnd.github.v3+json',
-            'Authorization': `token ${token}` 
-        }
-    });
-    
-              // Afficher les informations du quota
+
+       // Afficher les informations du quota
       console.log(response.headers.get('X-RateLimit-Remaining')); // Nombre de requêtes restantes
       console.log(response.headers.get('X-RateLimit-Reset')); // Heure de réinitialisation du quota  
 
