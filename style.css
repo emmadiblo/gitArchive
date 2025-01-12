@@ -334,7 +334,7 @@ input[type="text"]:focus {
     transition: color var(--transition-speed) ease;
 }
 
-.modal a:hover {
+a:hover {
     color: var(--text-title);
     text-decoration: underline;
 }
@@ -372,4 +372,54 @@ input[type="text"]:focus {
 .folder-content {
     padding-left: 20px;
     display: none; 
+}
+
+
+.footer{
+    padding: 5px;
+    position: fixed;
+    display:flex;
+    justify-content:space-between;
+    align-items: center;
+    background-color: var(--bg-secondary);
+    bottom: 0;
+    width: 100%;
+    }
+    
+    .footer img {
+        padding: 4px;
+    }
+
+    .footer img:hover {
+    
+        background-color: var(--text-title);
+        border-radius: 50%;
+
+      
+    }
+.socials{
+    display:flex;
+    flex-direction: row;
+ 
+
+}
+
+@media screen and (max-width: 600px){
+
+    .socials{
+        flex-direction: column;
+    }
+    
+}
+
+ a{
+    text-decoration: none;
+    color:var(--accent-primary);
+}
+
+ul li{
+
+    list-style-type:none;
+    margin-right: 10px;
+
 }
